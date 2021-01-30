@@ -1,0 +1,10 @@
+.folder-wrapper
+    %span.folder-title= folder.name
+    = link_to 'Show', folder
+    = link_to 'Edit', edit_folder_path(folder)
+    = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
+
+    - if folder.children.present?
+        .ml-2
+            - folder.children.each do |subfolder|
+                = render partial: 'folders/folder', locals: { folder: subfolder }
