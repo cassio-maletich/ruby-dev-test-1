@@ -4,26 +4,26 @@ class FolderTest < ActiveSupport::TestCase
   setup do 
     @root_folder = Folder.first
   end
-  
+
   test "create" do
-    folder = Folder.new(name: "Folder 1", parent_id: @root_folder.id)
+    folder = Folder.new(name: "Folder 1", parent: @root_folder)
     assert folder.valid?
   end
 
   test "shouldn't create 1 - missing parent" do
     folder = Folder.new(name: "Folder 1")
     assert_not folder.valid?
-    assert_not_empty folder.errors[:parent_id]
+    assert_not_empty folder.errors[:parent]
   end
 
   test "shouldn't create 2 - missing name" do
-    folder = Folder.new(parent_id: @root_folder.id)
+    folder = Folder.new(parent: @root_folder)
     assert_not folder.valid?
     assert_not_empty folder.errors[:name]
   end
 
   test "parent" do
-    folder = Folder.new(name: "Folder 1", parent_id: @root_folder.id)
+    folder = Folder.create(name: "Folder 1", parent: @root_folder)
     assert_equal @root_folder, folder.parent
   end
 
