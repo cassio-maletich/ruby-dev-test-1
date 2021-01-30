@@ -52,4 +52,27 @@ class FolderTest < ActiveSupport::TestCase
   test "has no attachment" do
     assert_not @root_folder.files.attached?
   end
+
+  test "has attachment & grandchild" do
+    folder1 = Folder.create(name: "Folder 1", parent: @root_folder)
+    folder2 = Folder.create(name: "Folder 2", parent: folder1)
+
+    folder1.files.attach(io: File.open(Rails.root.join('test', 'fixtures', 'files', 'test.csv')), filename: 'test.csv')
+
+    assert_includes @root_folder.children, folder1
+    assert_includes folder1.children, folder2
+    assert folder1.files.attached?
+  end
+
+  test "has attachment & grandchild 2" do
+    folder1 = Folder.create(name: "Folder 1", parent: @root_folder)
+    folder2 = Folder.create(name: "Folder 2", parent: folder1)
+
+    folder1.files.attach(io: File.open(Rails.root.join('test', 'fixtures', 'files', 'test.csv')), filename: 'test.csv')
+    folder2.files.attach(io: File.open(Rails.root.join('test', 'fixtures', 'files', 'test.csv')), filename: 'test.csv')
+
+    assert_includes folder1.children, folder2
+    assert folder1.files.attached?
+    assert folder2.files.attached?
+  end
 end
