@@ -1,5 +1,6 @@
 class FoldersController < ApplicationController
   before_action :set_folder, only: %i[ show edit update destroy ]
+  before_action :sanitize_params, only: %i[ create update ]
 
   # GET /folders or /folders.json
   def index
@@ -22,7 +23,7 @@ class FoldersController < ApplicationController
   # POST /folders or /folders.json
   def create
     @folder = Folder.new(folder_params)
-    @folder.files.attach(files_params) if files_params = params[:folder][:files]
+    @folder.files.attach(@files_params) if @files_params.present?
 
     respond_to do |format|
       if @folder.save
@@ -37,8 +38,8 @@ class FoldersController < ApplicationController
 
   # PATCH/PUT /folders/1 or /folders/1.json
   def update
-    @folder.files.attach(files_params) if files_params = params[:folder][:files]
-
+    @folder.files.attach(@files_params) if @files_params.present?
+    
     respond_to do |format|
       if @folder.update(folder_params)
         format.html { redirect_to @folder, notice: "Folder was successfully updated." }
@@ -68,5 +69,9 @@ class FoldersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def folder_params
       params.require(:folder).permit(:name, :parent_id)
+    end
+
+    def sanitize_params
+      @files_params = params[:folder][:files]
     end
 end

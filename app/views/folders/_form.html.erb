@@ -23,7 +23,11 @@
 
   <div class="field">
     <%= form.label :files, "Arquivos" %>
-    <%= form.file_field :files, multiple: true %>
+    <%= form.file_field :files, as: :file, multiple: true %>
+    <br/>
+    <% form.object.files.each do |item| %>
+      <%= content_tag :p, item.filename, class: "border-bottom" %>
+    <% end %>
   </div>
 
   <div class="actions">
