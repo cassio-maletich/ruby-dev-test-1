@@ -43,4 +43,13 @@ class FolderTest < ActiveSupport::TestCase
     folder2 = Folder.create(name: "Folder 2", parent: folder1)
     assert_equal folder2, @root_folder.children.first.children.first
   end
+
+  test "has attachment" do
+    @root_folder.files.attach(io: File.open(Rails.root.join('test', 'fixtures', 'files', 'test.csv')), filename: 'test.csv')
+    assert @root_folder.files.attached?
+  end
+
+  test "has no attachment" do
+    assert_not @root_folder.files.attached?
+  end
 end

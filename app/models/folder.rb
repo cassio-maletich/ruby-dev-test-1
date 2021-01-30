@@ -3,4 +3,6 @@ class Folder < ApplicationRecord
     has_many :children, class_name: "Folder", foreign_key: "parent_id"
 
     validates_presence_of :name
+
+    has_many_attached :files
 end
