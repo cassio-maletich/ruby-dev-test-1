@@ -21,6 +21,11 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :files, "Arquivos" %>
+    <%= form.file_field :files, multiple: true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

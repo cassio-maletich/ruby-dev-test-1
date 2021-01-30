@@ -1,10 +1,14 @@
-.folder-wrapper
-    %span.folder-title= folder.name
-    = link_to 'Show', folder
-    = link_to 'Edit', edit_folder_path(folder)
-    = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
+.folder-wrapper.border-left.pl-1
+  %span.folder-title= folder.name
+  = link_to 'Show', folder
+  = link_to 'Edit', edit_folder_path(folder)
+  = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
 
-    - if folder.children.present?
-        .ml-2
-            - folder.children.each do |subfolder|
-                = render partial: 'folders/folder', locals: { folder: subfolder }
+  - if folder.files.attached?
+    .attachments-wrapper
+      - folder.files.each do |file|
+        = link_to file.filename, rails_blob_path(file, disposition: "attachment")
+
+  - if folder.children.any?
+    .ml-2
+      = render folder.children
