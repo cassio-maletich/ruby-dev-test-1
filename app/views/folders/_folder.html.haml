@@ -6,7 +6,7 @@
     = link_to 'Edit', edit_folder_path(folder)
     = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
 
-  .collapse{id: accordion_id}
+  .collapse{id: accordion_id, class: folder.id == 1 ? "show" : ""}
     .card-body
       - if folder.children.any?
         .children-wrapper
