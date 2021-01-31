@@ -1,5 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+root:
+  id: 1
+  name: MyString
+  parent_id: nil
+
 one:
   name: MyString
   parent_id: 1

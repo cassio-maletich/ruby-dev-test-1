@@ -1,0 +1,36 @@
+<%= form_with(model: folder, local: true) do |form| %>
+  <% if folder.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(folder.errors.count, "error") %> prohibited this folder from being saved:</h2>
+
+      <ul>
+        <% folder.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :parent %>
+    <%= form.select :parent_id, Folder.all.pluck(:name, :id) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, "Nome" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :files, "Arquivos" %>
+    <%= form.file_field :files, as: :file, multiple: true %>
+    <br/>
+    <% form.object.files.each do |item| %>
+      <%= content_tag :p, item.filename, class: "border-bottom" %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

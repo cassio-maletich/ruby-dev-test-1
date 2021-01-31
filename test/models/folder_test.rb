@@ -41,7 +41,7 @@ class FolderTest < ActiveSupport::TestCase
   test "grandchild" do
     folder1 = Folder.create(name: "Folder 1", parent: @root_folder)
     folder2 = Folder.create(name: "Folder 2", parent: folder1)
-    assert_equal folder2, @root_folder.children.first.children.first
+    assert_equal folder2, @root_folder.children.find(folder1.id).children.find(folder2.id)
   end
 
   test "has attachment" do
