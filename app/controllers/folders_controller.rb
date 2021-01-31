@@ -61,6 +61,16 @@ class FoldersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # DELETE /folders/file/1 or /folders/file/1.json
+  def destroy_file
+    file = ActiveStorage::Attachment.find(params[:id])
+    file.purge_later
+    respond_to do |format|
+      format.html { redirect_to folders_url, notice: "Folder was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

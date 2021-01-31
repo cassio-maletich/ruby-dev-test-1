@@ -23,6 +23,15 @@ class FoldersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to folder_url(Folder.last)
   end
 
+  test "should create folder + file" do
+    file = fixture_file_upload(Rails.root.join('public', 'apple-touch-icon.png'), 'image/png')
+    assert_difference('Folder.count') do
+      post folders_url, params: { folder: { name: "new name", parent_id: 1, files: file } }
+    end
+
+    assert_redirected_to folder_url(Folder.last)
+  end
+
   test "should show folder" do
     get folder_url(@folder)
     assert_response :success
