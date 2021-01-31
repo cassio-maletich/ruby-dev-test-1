@@ -6,9 +6,9 @@ root:
   parent_id: nil
 
 one:
-  name: MyString
+  name: MyString1
   parent_id: 1
 
 two:
-  name: MyString
+  name: MyString2
   parent_id: 1

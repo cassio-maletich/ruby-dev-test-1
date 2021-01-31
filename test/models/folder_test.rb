@@ -22,6 +22,13 @@ class FolderTest < ActiveSupport::TestCase
     assert_not_empty folder.errors[:name]
   end
 
+  test "shouldn't create 3 - duplicated name" do
+    f = @root_folder.children.first
+    folder = Folder.new(parent: @root_folder, name: f.name)
+    assert_not folder.valid?
+    assert_not_empty folder.errors[:name]
+  end
+
   test "parent" do
     folder = Folder.create(name: "Folder 1", parent: @root_folder)
     assert_equal @root_folder, folder.parent
