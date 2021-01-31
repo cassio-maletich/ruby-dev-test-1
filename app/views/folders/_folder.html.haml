@@ -1,14 +1,17 @@
-.folder-wrapper.border-left.pl-1
-  %span.folder-title= folder.name
-  = link_to 'Show', folder
-  = link_to 'Edit', edit_folder_path(folder)
-  = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
+- accordion_id = "folder_#{folder.id}"
+.card.folder-wrapper.mb-1
+  .card-header
+    %button(class="btn btn-link" type="button" data-toggle="collapse" data-target="##{accordion_id}" aria-expanded="true" aria-controls="collapseOne")
+      = folder.name
+    = link_to 'Edit', edit_folder_path(folder)
+    = link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' }
 
-  - if folder.files.attached?
-    .attachments-wrapper
-      - folder.files.each do |file|
-        = link_to file.filename, rails_blob_path(file, disposition: "attachment")
+  .collapse{id: accordion_id}
+    .card-body
+      - if folder.children.any?
+        .children-wrapper
+          = render folder.children
 
-  - if folder.children.any?
-    .ml-2
-      = render folder.children
+      - if folder.files.attached?
+        .attachments-wrapper
+          = render partial: "folders/file", collection: folder.files, as: :file

@@ -1,0 +1,10 @@
+.attachments-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+    .img-fluid {
+        width: 80px;
+        margin: auto;
+    }
+}
