@@ -42,6 +42,8 @@ class FoldersController < ApplicationController
     
     respond_to do |format|
       if @folder.update(folder_params)
+        @folder.update_attribute('parent_id', nil) if @folder == Folder.first
+
         format.html { redirect_to @folder, notice: "Folder was successfully updated." }
         format.json { render :show, status: :ok, location: @folder }
       else

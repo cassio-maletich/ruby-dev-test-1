@@ -38,6 +38,12 @@ class FoldersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to folder_url(@folder)
   end
 
+  test "should not update root parent" do
+    root = Folder.first
+    patch folder_url(root), params: { folder: { name: "new name", parent_id: Folder.last.id } }
+    assert_nil root.parent
+  end
+
   test "should destroy folder" do
     assert_difference('Folder.count', -1) do
       delete folder_url(@folder)
